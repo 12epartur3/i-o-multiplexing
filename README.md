@@ -7,6 +7,7 @@ poll相比select，fd参数数组不是值-结果参数，每次可以复用上�
 poll本质上和select没有区别，它将用户传入的数组拷贝到内核空间，然后查询每个fd对应的设备状态，如果设备就绪则在设备等待队列中加入一项并继续遍历，如果遍历完所有fd后没有发现就绪设备，则挂起当前进程，直到设备就绪或者主动超时，被唤醒后它又要再次遍历fd。这个过程经历了多次无谓的遍历。
 
 https://www.cnblogs.com/xcywt/p/8146094.html
+https://blog.csdn.net/hnlyyk/article/details/50946655
 
 epoll需要把关心的fd通过epoll_ctl传给epfd,或者删掉，每次epoll_wait只会返回就绪的i/o时间，避免了大量无用的拷贝和遍历。
 epoll的lt（水平触发）和et（边缘触发），et表示epoll只会讲就绪事件返回一次，用户必须全部处理，lt表示若用户未处理就绪事件，epoll还会在下次进行返回。
